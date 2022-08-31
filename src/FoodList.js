@@ -6,14 +6,12 @@ import { v4 as uuid } from "uuid"
 
 function FoodList(props){
 
-
-
     //function to submit
-    const [name, setName] = useState(" ")
-    const [image, setImage] = useState(" ")
-    const [calories, setCalories] = useState(" ")
-    const [servings, setServings] = useState(" ")
-    const [foodList, setFoodList] = useState(foods)
+    const [name, setName] = useState("")
+    const [image, setImage] = useState("")
+    const [calories, setCalories] = useState("")
+    const [servings, setServings] = useState("")
+    const [foodList, setFoodList] = useState([...foods])
 
     const handleNameInput = (event) => setName(event.target.value)
     const handleImageInput = (event) => setImage(event.target.value)
@@ -24,13 +22,11 @@ function FoodList(props){
         e.preventDefault()
 
         const key = uuid()
-        const foodsArray = [...foods]
+        
         const newFood = {key, name, image, calories, servings}
         console.log("newFood", newFood)
-        foodsArray.push(newFood)
-        setFoodList(foodsArray)
+        setFoodList(oldFoods => [...oldFoods , newFood]); // == foodList.push(newFood)
 }
-
 
     return (
         <div>
@@ -44,7 +40,7 @@ function FoodList(props){
         <label>Servings:</label>
         <input type="text" name="foodServings" value={servings} onChange={handleServingsInput}/> 
         <button type="submit">Share food!</button></form>
-        {foods.map(food => <FoodCard key={uuid()} name={food.name} image={food.image} calories={food.calories} servings={food.servings} />)}
+        {foodList.map(food => <FoodCard key={uuid()} name={food.name} image={food.image} calories={food.calories} servings={food.servings} />)}
         </div>
         )}
 
